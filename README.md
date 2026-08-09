@@ -1,6 +1,6 @@
 # herdr-dividers
 
-Sidebar section dividers for [herdr](https://github.com/rstacruz/herdr) — create
+Sidebar section dividers for [herdr](https://github.com/herdrdev/herdr) — create
 and rename `━━ name ━━` divider workspaces in the workspace list.
 
 - Plugin id: `rstacruz.dividers`
