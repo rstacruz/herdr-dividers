@@ -17,8 +17,7 @@ title = "Rename divider"
 contexts = ["workspace"]
 command = ["bun", "bin/rename.ts"]
 
-# placement = "popup" lives here only — the CLI's accepted --placement values
-# lag the manifest's and reject popup, so the action never passes it.
+# popup placement lives here only; the CLI rejects it.
 [[panes]]
 id = "edit"
 title = "Divider name"

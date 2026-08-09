@@ -8,11 +8,7 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-// herdr 0.8.0 spawns actions with the server's stdin (TTY or EOF-empty), so
-// this branch cannot fire via the CLI — it does not forward pipes. It is the
-// documented stdin contract for plugin commands, so keep it: the day herdr
-// forwards stdin, a pipe creates a divider directly (the herdr-create-group
-// alias path) instead of opening the popup.
+// Pipe branch: documented contract; herdr 0.8.0 doesn't forward stdin.
 async function readPipedInput(): Promise<string | null> {
   if (process.stdin.isTTY) return null;
   process.stdin.setEncoding('utf8');
@@ -21,8 +17,7 @@ async function readPipedInput(): Promise<string | null> {
   return data === '' ? null : data;
 }
 
-// Focused workspace id is context only — create always appends at the end
-// (positioning is herdr's mouse drag), so a missing id is not fatal here.
+// Focused id is context only; missing is not fatal.
 const wsId = focusedWorkspaceId();
 
 const piped = await readPipedInput();

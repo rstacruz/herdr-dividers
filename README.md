@@ -6,14 +6,15 @@ Sidebar section dividers for the herdr workspace list.
 ▼ work
 ●  rlab
 ●  command-centre
-━━ projects ━━
+━━ projects ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ●  acme-web
 ●  acme-api
-━━ chores ━━
+━━ chores ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ●  dotfiles
 ```
 
-Dividers are plain herdr workspaces with a `━━ name ━━` label — no state file,
+Dividers are plain herdr workspaces with a `━━ name ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
+label (30-char bar, the old `herdr-create-group` style) — no state file,
 no startup hook, no persistence code. herdr already persists workspace order
 and labels across restarts, and the sidebar mouse drag reorders them for free.
 
@@ -60,8 +61,9 @@ herdr server reload-config
 ## Usage
 
 - **Create** — focus any workspace, press `prefix+d`. A popup asks for the
-  divider name: Enter creates `━━ name ━━` appended at the end of the list
-  (focus stays put), Esc cancels, an empty line cancels.
+  divider name: Enter creates `━━ name ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
+  (30-char bar) appended at the end of the list (focus stays put), Esc
+  cancels, an empty line cancels.
 - **Reposition** — drag the divider up or down in the sidebar; herdr persists
   the order across restarts.
 - **Rename** — focus a divider, press `prefix+Shift+D`. The popup is prefilled

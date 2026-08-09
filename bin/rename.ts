@@ -16,7 +16,7 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-// Same stdin contract as create.ts: a pipe renames directly (no popup).
+// Same stdin contract as create.ts.
 async function readPipedInput(): Promise<string | null> {
   if (process.stdin.isTTY) return null;
   process.stdin.setEncoding('utf8');
@@ -28,8 +28,7 @@ async function readPipedInput(): Promise<string | null> {
 const wsId = focusedWorkspaceId();
 if (!wsId) fail('could not determine the focused workspace (HERDR_WORKSPACE_ID not set)');
 
-// Only divider workspaces are renameable here; renaming via herdr's built-in
-// rename just makes it a normal workspace (graceful degradation, not a bug).
+// Guarded to divider labels; built-in rename degrades gracefully.
 const label = workspaceLabel(wsId);
 if (label === null) fail(`could not read the label of workspace ${wsId}`);
 if (!isDivider(label)) fail(`workspace is not a divider: "${label}"`);

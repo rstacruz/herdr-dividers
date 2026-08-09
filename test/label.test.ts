@@ -1,11 +1,12 @@
 import { expect, test } from 'bun:test';
-import { PREFIX, formatName, isDivider, nameFromLabel } from '../lib/label.ts';
+import { BAR, PREFIX, formatName, isDivider, nameFromLabel } from '../lib/label.ts';
 
 test('formatName trims and wraps in box chars', () => {
-  expect(formatName('acme')).toBe('━━ acme ━━');
-  expect(formatName('  acme  ')).toBe('━━ acme ━━');
+  expect(formatName('acme')).toBe(`━━ acme ${BAR}`);
+  expect(formatName('  acme  ')).toBe(`━━ acme ${BAR}`);
   expect(formatName('parked')).toStartWith(PREFIX);
-  expect(formatName('parked')).toEndWith(' ━━');
+  expect(formatName('parked')).toEndWith('━');
+  expect(formatName('parked')).toContain('━'.repeat(30));
 });
 
 test('isDivider detects the box-char prefix only', () => {
@@ -17,7 +18,7 @@ test('isDivider detects the box-char prefix only', () => {
 });
 
 test('nameFromLabel strips box chars symmetrically', () => {
-  expect(nameFromLabel('━━ acme ━━')).toBe('acme');
+  expect(nameFromLabel(formatName('acme'))).toBe('acme');
   expect(nameFromLabel(' ━━  spaced  ━━ ')).toBe('spaced');
 });
 

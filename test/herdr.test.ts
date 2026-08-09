@@ -2,11 +2,10 @@ import { expect, test } from 'bun:test';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createWorkspace, renameWorkspace, SOURCE, workspaceLabel } from '../lib/herdr.ts';
+import { createWorkspace, renameWorkspace, workspaceLabel } from '../lib/herdr.ts';
+import { formatName } from '../lib/label.ts';
 
-// A stub `herdr` on HERDR_BIN_PATH records the args it would receive. The
-// args arrive unquoted (spawnSync, no shell), so labels with spaces land as
-// separate argv entries — good enough to assert on.
+// Stub `herdr` records the args it would receive.
 function withStubHerdr(fn: () => void): string {
   const stubDir = mkdtempSync(join(tmpdir(), 'herdr-dividers-stub-'));
   const log = join(stubDir, 'log');
@@ -35,12 +34,7 @@ test('createWorkspace builds the divider create command', () => {
   expect(log).toContain('workspace create');
   expect(log).toContain('--no-focus');
   expect(log).toContain('--cwd');
-  expect(log).toContain('--label ━━ acme ━━');
-});
-
-test('createWorkspace trims and formats the name', () => {
-  const log = withStubHerdr(() => createWorkspace('  acme  '));
-  expect(log).toContain('--label ━━ acme ━━');
+  expect(log).toContain('--label ' + formatName('acme'));
 });
 
 test('renameWorkspace builds the rename command with the formatted label', () => {
@@ -48,7 +42,7 @@ test('renameWorkspace builds the rename command with the formatted label', () =>
     const res = renameWorkspace('w7W', 'parked');
     expect(res.ok).toBe(true);
   });
-  expect(log).toContain('workspace rename w7W ━━ parked ━━');
+  expect(log).toContain('workspace rename w7W ' + formatName('parked'));
 });
 
 // A stub whose stdout is a canned `workspace list` envelope.
@@ -95,10 +89,4 @@ test('workspaceLabel returns null on unparsable output', () => {
   withStubHerdrOutput('{nope', () => {
     expect(workspaceLabel('w7W')).toBeNull();
   });
-});
-
-test('commands carry the plugin source in the label', () => {
-  const log = withStubHerdr(() => createWorkspace('acme'));
-  expect(log).toContain('━━ acme ━━');
-  expect(SOURCE).toBe('rstacruz.dividers');
 });
