@@ -1,0 +1,27 @@
+id = "rstacruz.dividers"
+name = "Dividers"
+version = "0.1.0"
+min_herdr_version = "0.7.4"
+description = "Sidebar section dividers for the workspace list"
+platforms = ["linux", "macos"]
+
+[[actions]]
+id = "create"
+title = "Create divider"
+contexts = ["workspace"]
+command = ["bun", "bin/create.ts"]
+
+[[actions]]
+id = "rename"
+title = "Rename divider"
+contexts = ["workspace"]
+command = ["bun", "bin/rename.ts"]
+
+# popup placement lives here only; the CLI rejects it.
+[[panes]]
+id = "edit"
+title = "Divider name"
+placement = "popup"
+width = "80%"
+height = 1
+command = ["bun", "bin/divider-pane.ts"]

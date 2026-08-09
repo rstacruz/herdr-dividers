@@ -1,0 +1,14 @@
+{
+  "name": "herdr-dividers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sidebar section dividers for the herdr workspace list",
+  "license": "MIT",
+  "engines": {
+    "bun": ">=1.0"
+  },
+  "scripts": {
+    "test": "bun test"
+  }
+}
