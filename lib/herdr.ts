@@ -24,8 +24,10 @@ function cli(args: string[], { env = process.env }: { env?: NodeJS.ProcessEnv } 
     env,
   });
   const status = res.status ?? 1;
+  // spawnSync failures (ENOENT) leave stderr empty; use res.error.
   if (status !== 0) {
-    return { ok: false, stdout: res.stdout ?? '', error: (res.stderr || res.stdout || '').trim() };
+    const error = (res.error?.message || res.stderr || res.stdout || '').trim() || 'herdr command failed';
+    return { ok: false, stdout: res.stdout ?? '', error };
   }
   return { ok: true, stdout: res.stdout ?? '', error: null };
 }

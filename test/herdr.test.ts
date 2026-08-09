@@ -90,3 +90,16 @@ test('workspaceLabel returns null on unparsable output', () => {
     expect(workspaceLabel('w7W')).toBeNull();
   });
 });
+
+test('spawn failure (herdr not found) surfaces a non-empty error', () => {
+  const oldBin = process.env.HERDR_BIN_PATH;
+  process.env.HERDR_BIN_PATH = '/nonexistent/herdr-stub';
+  try {
+    const res = createWorkspace('acme');
+    expect(res.ok).toBe(false);
+    expect(res.error).not.toBe('');
+  } finally {
+    if (oldBin === undefined) delete process.env.HERDR_BIN_PATH;
+    else process.env.HERDR_BIN_PATH = oldBin;
+  }
+});
